@@ -10,13 +10,13 @@ OpenAPI Specification (formerly Swagger Specification) is an API description for
 - Authentication methods
 - Contact information, license, terms of use, and other information.
 API specifications can be written in YAML or JSON.\
-The OpenAPI Specification (OAS) allows the description of a remote API accessible through HTTP or HTTP-like protocols. This description, which may be stored as one or more documents (such as local files or HTTP-accessible network resources), is called an OpenAPI Description (OAD). Every OpenAPI Descriptions must contain an OpenAPI Object with at least the fields `openapi`, and `info`, and either `paths`, `components` or `webhooks`.\
+The OpenAPI Specification (OAS) allows the description of a remote API accessible through HTTP or HTTP-like protocols. This description, which may be stored as one or more documents (such as local files or HTTP-accessible network resources), is called an OpenAPI Description (OAD). Every OpenAPI Descriptions must contain an OpenAPI Object with at least the fields `openapi`, and `info`, and either `paths`, `components` or `webhooks`.
 
 ## gRPC
 In gRPC, a client application can directly call a method on a server application on a different machine. On the server side, the server implements this interface and runs a gRPC server to handle client calls. On the client side, the client has a stub (referred to as just a client in some languages) that provides the same methods as the server.\
 As in many RPC systems, gRPC is based around the idea of defining a service, specifying the methods that can be called remotely with their parameters and return types. By default, gRPC uses Protocol Buffers, Google’s mature open source mechanism for serializing structured data.\
 gRPC can be defined 4 kinds of service method: Unary RPC, Server streaming RPC, Client streaming RPC, Bidirectional streaming RPC
-#### Unary RPC
+### Unary RPC
 First consider the simplest type of RPC where the client sends a single request and gets back a single response.
 - Once the client calls a stub method, the server is notified that the RPC has been invoked with the client’s metadata for this call, the method name, and the specified deadline if applicable.
 - The server can then either send back its own initial metadata straight away, or wait for the client’s request message.
