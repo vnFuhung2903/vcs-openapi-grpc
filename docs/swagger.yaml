@@ -1,0 +1,127 @@
+definitions:
+  model.Book:
+    properties:
+      author:
+        type: string
+      id:
+        type: string
+      page:
+        type: integer
+      publisher:
+        type: string
+      title:
+        type: string
+      year:
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/books:
+    get:
+      operationId: readBooks
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              $ref: '#/definitions/model.Book'
+            type: object
+      summary: get all books in the book list
+      tags:
+      - Get all books
+    post:
+      consumes:
+      - application/json
+      operationId: createBook
+      parameters:
+      - description: New books
+        in: body
+        name: data
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              $ref: '#/definitions/model.Book'
+            type: object
+      summary: create a new book
+      tags:
+      - Create a new book
+  /api/v1/books/{id}:
+    delete:
+      operationId: deleteBook
+      parameters:
+      - description: books ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              $ref: '#/definitions/model.Book'
+            type: object
+      summary: delete an book by ID
+      tags:
+      - Delete book
+    get:
+      operationId: readBook
+      parameters:
+      - description: books ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              $ref: '#/definitions/model.Book'
+            type: object
+      summary: read an book by ID
+      tags:
+      - Get book by ID
+    put:
+      consumes:
+      - application/json
+      operationId: updateBook
+      parameters:
+      - description: books ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: books ID
+        in: body
+        name: data
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              $ref: '#/definitions/model.Book'
+            type: object
+      summary: update an book by ID
+      tags:
+      - Update an book
+swagger: "2.0"
