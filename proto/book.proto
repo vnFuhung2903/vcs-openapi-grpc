@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option go_package = "./proto;proto";
+
+package proto;
+
+service Book {
+    rpc getBook(BookRequest) returns (BookResponse) {}
+    rpc listBooks(BookRequest) returns (stream BookResponse) {}
+    rpc getSpecifiedBook(stream BookRequest) returns (BookResponse) {}
+    rpc listSpecifiedBooks(stream BookRequest) returns (stream BookResponse) {}
+}
+
+message BookRequest {
+    string title = 1;
+}
+
+message BookResponse {
+    string title = 1;
+    string description = 2;
+    string author = 3;
+    string publisher = 4;
+    string year = 5;
+}

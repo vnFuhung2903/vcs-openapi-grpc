@@ -4,13 +4,26 @@
 - [gRPC](#grpc)
 
 ## OpenAPI
-OpenAPI Specification (formerly Swagger Specification) is an API description format for REST APIs. An OpenAPI file allows you to describe your entire API, including:
+OpenAPI Specification (formerly Swagger Specification) is an API description format for REST APIs. An OpenAPI file allows to describe entire API, including:
 - Available endpoints and operations on each endpoint
 - Operation parameters Input and output for each operation
 - Authentication methods
 - Contact information, license, terms of use, and other information.
+
 API specifications can be written in YAML or JSON.\
 The OpenAPI Specification (OAS) allows the description of a remote API accessible through HTTP or HTTP-like protocols. This description, which may be stored as one or more documents (such as local files or HTTP-accessible network resources), is called an OpenAPI Description (OAD). Every OpenAPI Descriptions must contain an OpenAPI Object with at least the fields `openapi`, and `info`, and either `paths`, `components` or `webhooks`.
+### OpenAPI Fixed Fields
+- `openapi` (string): This indicates the version of the OAS this OAD is using, e.g. “3.1.0”. Using this field tools can check that the description correctly adheres to the specification.
+- `info` (Info Object): This provides general information about the API (like its description, author and contact information) but the only mandatory fields are title and version.
+    - `title` (string): A human-readable name for the API, like “GitHub REST API”, useful to keep API collections organized.
+    - `version` (string): Indicates the version of the API description (not to be confused with the OAS version above). Tools can use this field to generate code that ensures that clients and servers are interacting through the same version of the API, for example.
+- `paths` (Paths Object): This describes all the endpoints of the API, including their parameters and all possible server responses. Server and client code can be generated from this description, along with its documentation.
+- `server` (Server Object): This describe an array of Server Objects, which provide connectivity information to a target server. If the servers property is not provided, or is an empty array, the default value would be a Server Object with a url value of `/`.
+- `webhooks`: The incoming webhooks that may be received as part of this API and that the API consumer may choose to implement.
+- `components` (Components Object): This indicates an element to hold various schemas for the document.
+- `security` (Security Requirement Object): This declares which security mechanisms can be used across the API. Only one of the security requirement objects need to be satisfied to authorize a request.
+- `tags` (Tag Object): A list of tags used by the document with additional metadata. The order of the tags can be used to reflect on their order by the parsing tools. Not all tags that are used by the Operation Object must be declared. The tags that are not declared may be organized randomly or based on the tools’ logic. Each tag name in the list must be unique.
+- `externalDocs` (External Documentation Object): This describes additional external documentation.
 
 ## gRPC
 In gRPC, a client application can directly call a method on a server application on a different machine. On the server side, the server implements this interface and runs a gRPC server to handle client calls. On the client side, the client has a stub (referred to as just a client in some languages) that provides the same methods as the server.\
