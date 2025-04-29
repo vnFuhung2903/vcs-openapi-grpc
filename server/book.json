@@ -1,0 +1,51 @@
+[
+    {
+        "title": "Harry Potter and the Sorcerer's Stone",
+        "description": "An orphaned boy enrolls in a school of wizardry, where he learns the truth about himself, his family and the terrible evil that haunts the magical world.",
+        "author": "J.K. Rowling",
+        "publisher": "Bloomsbury",
+        "year": "1997"
+    },
+    {
+        "title": "Harry Potter and the Chamber of Secrets",
+        "description": "Harry Potter lives his second year at Hogwarts with Ron and Hermione when a message on the wall announces that the legendary Chamber of Secrets has been opened. The trio soon realize that, to save the school, it will take a lot of courage.",
+        "author": "J.K. Rowling",
+        "publisher": "Bloomsbury",
+        "year": "1999"
+    },
+    {
+        "title": "Harry Potter and the Prisoner of Azkaban",
+        "description": "Harry Potter, Ron and Hermione return to Hogwarts School of Witchcraft and Wizardry for their third year of study, where they delve into the mystery surrounding an escaped prisoner who poses a dangerous threat to the young wizard.",
+        "author": "J.K. Rowling",
+        "publisher": "Bloomsbury",
+        "year": "1999"
+    },
+    {
+        "title": "Harry Potter and the Goblet of Fire",
+        "description": "Harry Potter finds himself competing in a hazardous tournament between rival schools of magic, but he is distracted by recurring nightmares.",
+        "author": "J.K. Rowling",
+        "publisher": "Bloomsbury",
+        "year": "2000"
+    },
+    {
+        "title": "Harry Potter and the Order of the Phoenix",
+        "description": "With their warning about Lord Voldemort's return scoffed at, Harry and Dumbledore are targeted by the Wizard authorities as an authoritarian bureaucrat slowly seizes power at Hogwarts.",
+        "author": "J.K. Rowling",
+        "publisher": "Bloomsbury",
+        "year": "2003"
+    },
+    {
+        "title": "Harry Potter and the Half-Blood Prince",
+        "description": "As Harry Potter begins his sixth year at Hogwarts, he discovers an old book marked as 'the property of the Half-Blood Prince' and begins to learn more about Lord Voldemort's dark past.",
+        "author": "J.K. Rowling",
+        "publisher": "Bloomsbury",
+        "year": "2005"
+    },
+    {
+        "title": "Harry Potter and the Deathly Hallows",
+        "description": "As the battle between the forces of good and evil in the wizarding world escalates, Harry Potter draws ever closer to his final confrontation with Voldemort.",
+        "author": "J.K. Rowling",
+        "publisher": "Bloomsbury",
+        "year": "2007"
+    }
+]

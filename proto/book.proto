@@ -2,17 +2,18 @@ syntax = "proto3";
 
 option go_package = "./proto;proto";
 
+// protoc --go_out=. --go-grpc_out=. proto/book.proto
 package proto;
 
 service Book {
-    rpc getBook(BookRequest) returns (BookResponse) {}
-    rpc listBooks(BookRequest) returns (stream BookResponse) {}
-    rpc getSpecifiedBook(stream BookRequest) returns (BookResponse) {}
-    rpc listSpecifiedBooks(stream BookRequest) returns (stream BookResponse) {}
+    rpc GetBook(BookRequest) returns (BookResponse) {}
+    rpc ListBooks(BookRequest) returns (stream BookResponse) {}
+    rpc MultiGetBook(stream BookRequest) returns (BookResponse) {}
+    rpc MultiListBooks(stream BookRequest) returns (stream BookResponse) {}
 }
 
 message BookRequest {
-    string title = 1;
+    string chapter = 1;
 }
 
 message BookResponse {

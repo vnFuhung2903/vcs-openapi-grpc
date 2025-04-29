@@ -4,6 +4,8 @@
 // - protoc             v3.21.12
 // source: proto/book.proto
 
+// protoc --go_out=. --go-grpc_out=. proto/book.proto
+
 package proto
 
 import (
@@ -19,10 +21,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Book_GetBook_FullMethodName            = "/proto.Book/getBook"
-	Book_ListBooks_FullMethodName          = "/proto.Book/listBooks"
-	Book_GetSpecifiedBook_FullMethodName   = "/proto.Book/getSpecifiedBook"
-	Book_ListSpecifiedBooks_FullMethodName = "/proto.Book/listSpecifiedBooks"
+	Book_GetBook_FullMethodName        = "/proto.Book/GetBook"
+	Book_ListBooks_FullMethodName      = "/proto.Book/ListBooks"
+	Book_MultiGetBook_FullMethodName   = "/proto.Book/MultiGetBook"
+	Book_MultiListBooks_FullMethodName = "/proto.Book/MultiListBooks"
 )
 
 // BookClient is the client API for Book service.
@@ -31,8 +33,8 @@ const (
 type BookClient interface {
 	GetBook(ctx context.Context, in *BookRequest, opts ...grpc.CallOption) (*BookResponse, error)
 	ListBooks(ctx context.Context, in *BookRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[BookResponse], error)
-	GetSpecifiedBook(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[BookRequest, BookResponse], error)
-	ListSpecifiedBooks(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[BookRequest, BookResponse], error)
+	MultiGetBook(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[BookRequest, BookResponse], error)
+	MultiListBooks(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[BookRequest, BookResponse], error)
 }
 
 type bookClient struct {
@@ -72,9 +74,9 @@ func (c *bookClient) ListBooks(ctx context.Context, in *BookRequest, opts ...grp
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type Book_ListBooksClient = grpc.ServerStreamingClient[BookResponse]
 
-func (c *bookClient) GetSpecifiedBook(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[BookRequest, BookResponse], error) {
+func (c *bookClient) MultiGetBook(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[BookRequest, BookResponse], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &Book_ServiceDesc.Streams[1], Book_GetSpecifiedBook_FullMethodName, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &Book_ServiceDesc.Streams[1], Book_MultiGetBook_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -83,11 +85,11 @@ func (c *bookClient) GetSpecifiedBook(ctx context.Context, opts ...grpc.CallOpti
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type Book_GetSpecifiedBookClient = grpc.ClientStreamingClient[BookRequest, BookResponse]
+type Book_MultiGetBookClient = grpc.ClientStreamingClient[BookRequest, BookResponse]
 
-func (c *bookClient) ListSpecifiedBooks(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[BookRequest, BookResponse], error) {
+func (c *bookClient) MultiListBooks(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[BookRequest, BookResponse], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &Book_ServiceDesc.Streams[2], Book_ListSpecifiedBooks_FullMethodName, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &Book_ServiceDesc.Streams[2], Book_MultiListBooks_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -96,7 +98,7 @@ func (c *bookClient) ListSpecifiedBooks(ctx context.Context, opts ...grpc.CallOp
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type Book_ListSpecifiedBooksClient = grpc.BidiStreamingClient[BookRequest, BookResponse]
+type Book_MultiListBooksClient = grpc.BidiStreamingClient[BookRequest, BookResponse]
 
 // BookServer is the server API for Book service.
 // All implementations must embed UnimplementedBookServer
@@ -104,8 +106,8 @@ type Book_ListSpecifiedBooksClient = grpc.BidiStreamingClient[BookRequest, BookR
 type BookServer interface {
 	GetBook(context.Context, *BookRequest) (*BookResponse, error)
 	ListBooks(*BookRequest, grpc.ServerStreamingServer[BookResponse]) error
-	GetSpecifiedBook(grpc.ClientStreamingServer[BookRequest, BookResponse]) error
-	ListSpecifiedBooks(grpc.BidiStreamingServer[BookRequest, BookResponse]) error
+	MultiGetBook(grpc.ClientStreamingServer[BookRequest, BookResponse]) error
+	MultiListBooks(grpc.BidiStreamingServer[BookRequest, BookResponse]) error
 	mustEmbedUnimplementedBookServer()
 }
 
@@ -122,11 +124,11 @@ func (UnimplementedBookServer) GetBook(context.Context, *BookRequest) (*BookResp
 func (UnimplementedBookServer) ListBooks(*BookRequest, grpc.ServerStreamingServer[BookResponse]) error {
 	return status.Errorf(codes.Unimplemented, "method ListBooks not implemented")
 }
-func (UnimplementedBookServer) GetSpecifiedBook(grpc.ClientStreamingServer[BookRequest, BookResponse]) error {
-	return status.Errorf(codes.Unimplemented, "method GetSpecifiedBook not implemented")
+func (UnimplementedBookServer) MultiGetBook(grpc.ClientStreamingServer[BookRequest, BookResponse]) error {
+	return status.Errorf(codes.Unimplemented, "method MultiGetBook not implemented")
 }
-func (UnimplementedBookServer) ListSpecifiedBooks(grpc.BidiStreamingServer[BookRequest, BookResponse]) error {
-	return status.Errorf(codes.Unimplemented, "method ListSpecifiedBooks not implemented")
+func (UnimplementedBookServer) MultiListBooks(grpc.BidiStreamingServer[BookRequest, BookResponse]) error {
+	return status.Errorf(codes.Unimplemented, "method MultiListBooks not implemented")
 }
 func (UnimplementedBookServer) mustEmbedUnimplementedBookServer() {}
 func (UnimplementedBookServer) testEmbeddedByValue()              {}
@@ -178,19 +180,19 @@ func _Book_ListBooks_Handler(srv interface{}, stream grpc.ServerStream) error {
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type Book_ListBooksServer = grpc.ServerStreamingServer[BookResponse]
 
-func _Book_GetSpecifiedBook_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(BookServer).GetSpecifiedBook(&grpc.GenericServerStream[BookRequest, BookResponse]{ServerStream: stream})
+func _Book_MultiGetBook_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(BookServer).MultiGetBook(&grpc.GenericServerStream[BookRequest, BookResponse]{ServerStream: stream})
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type Book_GetSpecifiedBookServer = grpc.ClientStreamingServer[BookRequest, BookResponse]
+type Book_MultiGetBookServer = grpc.ClientStreamingServer[BookRequest, BookResponse]
 
-func _Book_ListSpecifiedBooks_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(BookServer).ListSpecifiedBooks(&grpc.GenericServerStream[BookRequest, BookResponse]{ServerStream: stream})
+func _Book_MultiListBooks_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(BookServer).MultiListBooks(&grpc.GenericServerStream[BookRequest, BookResponse]{ServerStream: stream})
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type Book_ListSpecifiedBooksServer = grpc.BidiStreamingServer[BookRequest, BookResponse]
+type Book_MultiListBooksServer = grpc.BidiStreamingServer[BookRequest, BookResponse]
 
 // Book_ServiceDesc is the grpc.ServiceDesc for Book service.
 // It's only intended for direct use with grpc.RegisterService,
@@ -200,24 +202,24 @@ var Book_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*BookServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "getBook",
+			MethodName: "GetBook",
 			Handler:    _Book_GetBook_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "listBooks",
+			StreamName:    "ListBooks",
 			Handler:       _Book_ListBooks_Handler,
 			ServerStreams: true,
 		},
 		{
-			StreamName:    "getSpecifiedBook",
-			Handler:       _Book_GetSpecifiedBook_Handler,
+			StreamName:    "MultiGetBook",
+			Handler:       _Book_MultiGetBook_Handler,
 			ClientStreams: true,
 		},
 		{
-			StreamName:    "listSpecifiedBooks",
-			Handler:       _Book_ListSpecifiedBooks_Handler,
+			StreamName:    "MultiListBooks",
+			Handler:       _Book_MultiListBooks_Handler,
 			ServerStreams: true,
 			ClientStreams: true,
 		},

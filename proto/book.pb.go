@@ -4,6 +4,8 @@
 // 	protoc        v3.21.12
 // source: proto/book.proto
 
+// protoc --go_out=. --go-grpc_out=. proto/book.proto
+
 package proto
 
 import (
@@ -23,7 +25,7 @@ const (
 
 type BookRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Title         string                 `protobuf:"bytes,1,opt,name=title,proto3" json:"title,omitempty"`
+	Chapter       string                 `protobuf:"bytes,1,opt,name=chapter,proto3" json:"chapter,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -58,9 +60,9 @@ func (*BookRequest) Descriptor() ([]byte, []int) {
 	return file_proto_book_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *BookRequest) GetTitle() string {
+func (x *BookRequest) GetChapter() string {
 	if x != nil {
-		return x.Title
+		return x.Chapter
 	}
 	return ""
 }
@@ -145,20 +147,20 @@ var File_proto_book_proto protoreflect.FileDescriptor
 
 const file_proto_book_proto_rawDesc = "" +
 	"\n" +
-	"\x10proto/book.proto\x12\x05proto\"#\n" +
-	"\vBookRequest\x12\x14\n" +
-	"\x05title\x18\x01 \x01(\tR\x05title\"\x90\x01\n" +
+	"\x10proto/book.proto\x12\x05proto\"'\n" +
+	"\vBookRequest\x12\x18\n" +
+	"\achapter\x18\x01 \x01(\tR\achapter\"\x90\x01\n" +
 	"\fBookResponse\x12\x14\n" +
 	"\x05title\x18\x01 \x01(\tR\x05title\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x16\n" +
 	"\x06author\x18\x03 \x01(\tR\x06author\x12\x1c\n" +
 	"\tpublisher\x18\x04 \x01(\tR\tpublisher\x12\x12\n" +
-	"\x04year\x18\x05 \x01(\tR\x04year2\xfc\x01\n" +
+	"\x04year\x18\x05 \x01(\tR\x04year2\xf4\x01\n" +
 	"\x04Book\x124\n" +
-	"\agetBook\x12\x12.proto.BookRequest\x1a\x13.proto.BookResponse\"\x00\x128\n" +
-	"\tlistBooks\x12\x12.proto.BookRequest\x1a\x13.proto.BookResponse\"\x000\x01\x12?\n" +
-	"\x10getSpecifiedBook\x12\x12.proto.BookRequest\x1a\x13.proto.BookResponse\"\x00(\x01\x12C\n" +
-	"\x12listSpecifiedBooks\x12\x12.proto.BookRequest\x1a\x13.proto.BookResponse\"\x00(\x010\x01B\x0fZ\r./proto;protob\x06proto3"
+	"\aGetBook\x12\x12.proto.BookRequest\x1a\x13.proto.BookResponse\"\x00\x128\n" +
+	"\tListBooks\x12\x12.proto.BookRequest\x1a\x13.proto.BookResponse\"\x000\x01\x12;\n" +
+	"\fMultiGetBook\x12\x12.proto.BookRequest\x1a\x13.proto.BookResponse\"\x00(\x01\x12?\n" +
+	"\x0eMultiListBooks\x12\x12.proto.BookRequest\x1a\x13.proto.BookResponse\"\x00(\x010\x01B\x0fZ\r./proto;protob\x06proto3"
 
 var (
 	file_proto_book_proto_rawDescOnce sync.Once
@@ -178,14 +180,14 @@ var file_proto_book_proto_goTypes = []any{
 	(*BookResponse)(nil), // 1: proto.BookResponse
 }
 var file_proto_book_proto_depIdxs = []int32{
-	0, // 0: proto.Book.getBook:input_type -> proto.BookRequest
-	0, // 1: proto.Book.listBooks:input_type -> proto.BookRequest
-	0, // 2: proto.Book.getSpecifiedBook:input_type -> proto.BookRequest
-	0, // 3: proto.Book.listSpecifiedBooks:input_type -> proto.BookRequest
-	1, // 4: proto.Book.getBook:output_type -> proto.BookResponse
-	1, // 5: proto.Book.listBooks:output_type -> proto.BookResponse
-	1, // 6: proto.Book.getSpecifiedBook:output_type -> proto.BookResponse
-	1, // 7: proto.Book.listSpecifiedBooks:output_type -> proto.BookResponse
+	0, // 0: proto.Book.GetBook:input_type -> proto.BookRequest
+	0, // 1: proto.Book.ListBooks:input_type -> proto.BookRequest
+	0, // 2: proto.Book.MultiGetBook:input_type -> proto.BookRequest
+	0, // 3: proto.Book.MultiListBooks:input_type -> proto.BookRequest
+	1, // 4: proto.Book.GetBook:output_type -> proto.BookResponse
+	1, // 5: proto.Book.ListBooks:output_type -> proto.BookResponse
+	1, // 6: proto.Book.MultiGetBook:output_type -> proto.BookResponse
+	1, // 7: proto.Book.MultiListBooks:output_type -> proto.BookResponse
 	4, // [4:8] is the sub-list for method output_type
 	0, // [0:4] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
