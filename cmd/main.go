@@ -1,11 +1,8 @@
 package main
 
 import (
-	"log"
-
 	"github.com/gofiber/fiber/v2"
 	"github.com/vnFuhung2903/vcs-openapi-grpc/api"
-	"github.com/vnFuhung2903/vcs-openapi-grpc/client"
 )
 
 func createSwaggerDocs() {
@@ -16,12 +13,6 @@ func createSwaggerDocs() {
 	app.Shutdown()
 }
 
-func checkRPC() {
-	client := client.NewClient()
-	log.Printf("%v", client)
-}
-
 func main() {
 	createSwaggerDocs()
-	checkRPC()
 }

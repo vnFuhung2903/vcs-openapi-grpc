@@ -1,10 +1,12 @@
-package server
+package main
 
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
+	"net"
 	"os"
 	"strconv"
 
@@ -24,27 +26,33 @@ type Server struct {
 	proto.UnimplementedBookServer
 }
 
-func NewServer() {
+func main() {
+	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:50051"))
+	if err != nil {
+		log.Fatalf("Listening port 50051 error: %v", err)
+	}
+
 	s := grpc.NewServer()
 	proto.RegisterBookServer(s, &Server{})
+	s.Serve(lis)
 }
 
 func RetrieveBooks() []Book {
-	file, err := os.Open("book.json")
+	file, err := os.Open("./server/book.json")
 	if err != nil {
-		log.Fatalf("Open file error %v", err)
+		log.Fatalf("Opening file error: %v", err)
 	}
 	defer file.Close()
 
 	data, err := io.ReadAll(file)
 	if err != nil {
-		log.Fatalf("Read file error %v", err)
+		log.Fatalf("Reading file error: %v", err)
 	}
 
 	var books []Book
 	err = json.Unmarshal(data, &books)
 	if err != nil {
-		log.Fatalf("Unmarshal JSON file error %v", err)
+		log.Fatalf("Unmarshaling JSON file error: %v", err)
 	}
 
 	return books
@@ -109,13 +117,13 @@ func (s *Server) MultiGetBook(stream proto.Book_MultiGetBookServer) error {
 		}
 
 		cntReq += 1
-		if cntReq >= 7 {
+		if cntReq >= 2 {
 			return stream.SendAndClose(&proto.BookResponse{
-				Title:       books[cntReq-1].Title,
-				Description: books[cntReq-1].Description,
-				Author:      books[cntReq-1].Author,
-				Publisher:   books[cntReq-1].Publisher,
-				Year:        books[cntReq-1].Year,
+				Title:       books[index-1].Title,
+				Description: books[index-1].Description,
+				Author:      books[index-1].Author,
+				Publisher:   books[index-1].Publisher,
+				Year:        books[index-1].Year,
 			})
 		}
 	}
@@ -125,17 +133,16 @@ func (s *Server) MultiListBooks(stream proto.Book_MultiListBooksServer) error {
 	books := RetrieveBooks()
 	for {
 		req, err := stream.Recv()
-		if err != nil && err != io.EOF {
+		if err != nil {
+			if err == io.EOF {
+				return nil
+			}
 			return err
 		}
 
 		index, err := strconv.Atoi(req.Chapter)
 		if err != nil {
 			return err
-		}
-
-		if err == io.EOF {
-			break
 		}
 
 		err = stream.Send(&proto.BookResponse{
@@ -149,5 +156,4 @@ func (s *Server) MultiListBooks(stream proto.Book_MultiListBooksServer) error {
 			return err
 		}
 	}
-	return nil
 }
